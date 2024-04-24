@@ -1,1 +1,94 @@
 
+<!-- Prince John-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moving Meme</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <!-- adds the image-->
+        <img id="meme" src="0BMeckhsXvnnt7FFx.png">
+        <!-- creats the start and stop button-->
+        <button id="startButton" onclick="startMoving()">Start</button>
+        <button id="stopButton" onclick="stopMoving()" disabled>Stop</button>
+    </div>
+    
+    <script src="index.js"></script>
+</body>
+</html>
+
+CSS:
+.container {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    margin: 0 auto;
+    background-color: white;
+}
+
+#meme {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: auto;
+}
+
+js:
+// Function to move the meme image around the page
+function moveMeme() {
+    const meme = document.getElementById('meme');
+    let posX = 0;
+    let posY = 0;
+    const speed = 10;
+
+    const moveInterval = setInterval(() => {
+        // Update position
+        posX += speed;
+        posY += speed;
+
+        // Move the meme
+        meme.style.left = posX + 'px';
+        meme.style.top = posY + 'px';
+
+        // If the meme reaches the bottom right corner itll reset its position ( did it this way because im struggling to make it bounce off the sides)
+        if (posX >= window.innerWidth - meme.width || posY >= window.innerHeight - meme.height) {
+            posX = 0;
+            posY = 0;
+        }
+    }, 50);
+
+    return moveInterval;
+}
+
+// Disables the start button when the image starts moving
+function startMoving() {
+    const startButton = document.getElementById('startButton');
+    const stopButton = document.getElementById('stopButton');
+    
+    // Disables the start button
+    startButton.disabled = true;
+    // Enables the stop button
+    stopButton.disabled = false;
+
+    // Start moving the meme
+    moveInterval = moveMeme();
+}
+
+// Disables the stop button after the image stops moving
+function stopMoving() {
+    const startButton = document.getElementById('startButton');
+    const stopButton = document.getElementById('stopButton');
+
+    // Enablse the start button
+    startButton.disabled = false;
+    // Disables stop button
+    stopButton.disabled = true;
+
+    clearInterval(moveInterval);
+}
+
